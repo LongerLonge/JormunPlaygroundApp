@@ -1,0 +1,46 @@
+[versions]
+router_version = "0.5.2"
+kotlin_version = "1.8.0"
+androidGradlePlugin = "7.4.2"
+minSdk = "24"
+compileSdk = "33"
+targetSdk="33"
+versionCode="1"
+versionName="1.0"
+kspVersion="1.8.10-1.0.9"
+lifecycle_version = "2.6.0"
+
+[libraries]
+#base
+
+#okhttp:
+okhttp3 = "com.squareup.okhttp3:okhttp:4.10.0"
+
+# androidx
+core-ktx = "androidx.core:core-ktx:1.9.0"
+appcompat = "androidx.appcompat:appcompat:1.6.0"
+constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.4"
+material = "com.google.android.material:material:1.8.0"
+
+# lifecycle
+lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle_version" }
+
+#kotlin-coroutines
+kotlinx-coroutines-android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+kotlin-coroutines-core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin_version" }
+kotlin-stdlib-jdk7 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlin_version" }
+
+#junit & test
+junit = "junit:junit:4.13.2"
+test-junit = "androidx.test.ext:junit:1.1.5"
+test-espresso = "androidx.test.espresso:espresso-core:3.5.1"
+
+#ksp
+ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "kspVersion" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin_version" }
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }

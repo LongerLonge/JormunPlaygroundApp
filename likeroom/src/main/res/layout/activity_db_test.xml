@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DbTestActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_create_db"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="createDB"
+            android:text="创建DB" />
+
+        <Button
+            android:id="@+id/btn_insert_db"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="insertDataToDB"
+            android:text="插入新数据到DB" />
+
+        <Button
+            android:id="@+id/btn_check_exits"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="doCheckExitsInsert"
+            android:text="演示重复插入" />
+
+        <Button
+            android:id="@+id/btn_update_db"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="updateToDB"
+            android:text="修改数据到DB" />
+
+        <Button
+            android:id="@+id/btn_delete_db"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="deleteDataFromDB"
+            android:text="删除数据到DB" />
+
+        <Button
+            android:id="@+id/btn_query_db"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="queryFromDB"
+            android:text="从DB中查询数据" />
+
+        <Button
+            android:id="@+id/btn_extension_dao"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="getExtensionDao"
+            android:text="演示拓展Dao" />
+
+        <Button
+            android:id="@+id/btn_show_separate"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="doSeparateOperation"
+            android:text="演示分库插入" />
+
+        <Button
+            android:id="@+id/btn_update_create_db"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="doUpdateDbToCreate"
+            android:text="演示解析xml并且新建数据库" />
+        <Button
+            android:id="@+id/btn_return_main"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="returnMain"
+            android:text="router跳转回主页" />
+
+    </LinearLayout>
+
+</ScrollView>
