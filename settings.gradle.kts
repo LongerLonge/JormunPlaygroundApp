@@ -1,3 +1,4 @@
+include(":secondmodule")
 
 
 pluginManagement {
@@ -14,6 +15,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
     }
 }
 rootProject.name = "JormunPlaygroundApp"
@@ -27,3 +29,5 @@ include(":likerouter")
 include(":likerouter-compiler")
 include(":likerouter-plugin")
 include(":likerouter-annotation")
+include(":likeshadow-core")
+include(":likeshadow")

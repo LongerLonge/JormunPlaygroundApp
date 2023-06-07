@@ -18,6 +18,9 @@
             <option value="$PROJECT_DIR$/likerouter-annotation" />
             <option value="$PROJECT_DIR$/likerouter-compiler" />
             <option value="$PROJECT_DIR$/likerouter-plugin" />
+            <option value="$PROJECT_DIR$/likeshadow" />
+            <option value="$PROJECT_DIR$/likeshadow-core" />
+            <option value="$PROJECT_DIR$/secondmodule" />
           </set>
         </option>
       </GradleProjectSettings>

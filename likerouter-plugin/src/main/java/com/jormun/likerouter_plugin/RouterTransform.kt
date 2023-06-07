@@ -5,6 +5,7 @@ import com.android.build.api.transform.QualifiedContent
 import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.internal.pipeline.TransformManager
+import javassist.CtClass
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 import org.objectweb.asm.ClassReader
@@ -21,6 +22,7 @@ class RouterTransform(val project: Project) : Transform() {
 
     //给这个tf命个名
     override fun getName(): String {
+        //val c: CtClass = CtClass()
         return "router-register"
     }
 

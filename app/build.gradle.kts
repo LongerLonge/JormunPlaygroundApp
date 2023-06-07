@@ -3,6 +3,9 @@
     id ("org.jetbrains.kotlin.android")
     //扔给根工程的build处理。
 }*/
+/*plugins {
+    id("org.jetbrains.kotlin.android")
+}*/
 //低于8.1会报错，需要用注解压制
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -52,6 +55,7 @@ dependencies {
     androidTestImplementation(libs.test.junit)
     androidTestImplementation(libs.test.espresso)
     implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(project(":likeshadow"))
     implementation(project(":likeretrofit"))
     implementation(project(":likeroom"))
     implementation(project(":likerouter-annotation"))

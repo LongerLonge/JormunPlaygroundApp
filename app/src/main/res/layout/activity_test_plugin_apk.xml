@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".splugin.PluginApkTestActivity">
+
+    <Button
+        android:id="@+id/btn_load_apk"
+        android:text="从本地加载插件APK"
+        android:onClick="loadPluginApk"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+
+
+    <Button
+        android:id="@+id/btn_start_apk"
+        android:text="跳转到插件Activity"
+        android:onClick="startPlugin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+</LinearLayout>

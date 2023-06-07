@@ -109,6 +109,10 @@ object RegisterCodeGenerator {
                 visitMethod = RouteMethodVisitor(Opcodes.ASM5, visitMethod, registerList)
             }
             println("MyClassVisitor.visitMethod end!!")
+            /*return super.visitMethod(
+                access and Opcodes.ACC_PROTECTED.inv(),
+                name, descriptor, signature, exceptions
+            )*/
             return visitMethod
         }
     }

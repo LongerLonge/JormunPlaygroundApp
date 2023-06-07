@@ -13,6 +13,9 @@ mapOf(
     Pair("likerouter", 1),
     Pair("likerouter-compiler", 2),
     Pair("likerouter-plugin", 2),
+    Pair("secondmodule", 0),
+    Pair("likeshadow-core", 1),
+    Pair("likeshadow", 1),
     Pair("likeroom", 1)
 ).entries.forEach {
     //rootProject.extra似乎可以做到全局共享

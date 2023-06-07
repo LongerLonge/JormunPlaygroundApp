@@ -29,6 +29,13 @@
             android:onClick="routerDb"
             android:text="Router跳转数据库测试页面" />
 
+        <Button
+            android:id="@+id/btn_plugin_test"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="testPluginApk"
+            android:text="跳转到插件测试页面" />
+
 
     </LinearLayout>
 
