@@ -16,6 +16,7 @@ mapOf(
     Pair("secondmodule", 0),
     Pair("likeshadow-core", 1),
     Pair("likeshadow", 1),
+    Pair("likeglide", 1),
     Pair("likeroom", 1)
 ).entries.forEach {
     //rootProject.extra似乎可以做到全局共享

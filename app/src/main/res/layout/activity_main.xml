@@ -35,6 +35,12 @@
             android:layout_height="50dp"
             android:onClick="testPluginApk"
             android:text="跳转到插件测试页面" />
+        <Button
+            android:id="@+id/btn_glide_test"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="testGlide"
+            android:text="跳转到Glide测试页面" />
 
 
     </LinearLayout>

@@ -1,7 +1,6 @@
 
-
 android {
-    namespace = "com.jormun.likerouter"
+    namespace = "com.jormun.likeglide"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {

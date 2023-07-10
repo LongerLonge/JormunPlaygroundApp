@@ -1,11 +1,4 @@
-/*plugins {
-    id ("com.android.application")
-    id ("org.jetbrains.kotlin.android")
-    //扔给根工程的build处理。
-}*/
-/*plugins {
-    id("org.jetbrains.kotlin.android")
-}*/
+
 //低于8.1会报错，需要用注解压制
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -50,6 +43,7 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
+    implementation("com.github.bumptech.glide:glide:4.15.1")
     implementation(libs.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.test.junit)
@@ -60,5 +54,6 @@ dependencies {
     implementation(project(":likeroom"))
     implementation(project(":likerouter-annotation"))
     implementation(project(":likerouter"))
+    implementation(project(":likeglide"))
     ksp(project(":likerouter-compiler"))
 }

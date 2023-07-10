@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".glidetest.GlideTestActivity">
+
+    <Button
+        android:id="@+id/btn_bind_appcontext"
+        android:text="绑定ApplicationContext"
+        android:onClick="bindAppContext"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+    <Button
+        android:id="@+id/btn_bind_context"
+        android:text="绑定新版Context"
+        android:onClick="bindNewContext"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+    <Button
+        android:id="@+id/btn_bind_fragment"
+        android:text="前往旧版Fragment绑定测试"
+        android:onClick="jumpFragmentBind"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+</LinearLayout>

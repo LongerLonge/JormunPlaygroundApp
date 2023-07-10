@@ -21,6 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JormunPlaygroundApp">
         <activity
+            android:name=".glidetest.OldFragmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".glidetest.GlideTestActivity"
+            android:exported="false" />
+        <activity
             android:name=".splugin.PluginApkTestActivity"
             android:exported="false" />
         <activity
