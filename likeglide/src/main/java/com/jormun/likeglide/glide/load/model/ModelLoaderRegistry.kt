@@ -3,7 +3,10 @@ package com.jormun.likeglide.glide.load.model
 import java.lang.Exception
 
 /**
- * 注册Loader并且根据判断返回对应的Loader
+ * 注册Loader并且根据判断返回对应的Loader。
+ * Loader是加载数据用的，不涉及解码。
+ * 解码的那个见：
+ * @see com.jormun.likeglide.glide.load.codec.ResourceDecoderRegistry
  */
 class ModelLoaderRegistry {
     //保存封装ModelLoaderFactory的Entry对象数组
@@ -46,10 +49,11 @@ class ModelLoaderRegistry {
         if (loaders.isEmpty()) {
             throw Exception("No match: ${modelClass.name} Data: ${dataClass.name}")
         }
-
         return if (loaders.size > 1) {
+            //如果是多个，就封装进MultiModelLoader里面返回
             MultiModelLoader(loaders)
         } else {
+            //单个直接返回
             loaders[0]
         }
     }
@@ -74,7 +78,8 @@ class ModelLoaderRegistry {
      * @param factory 这个是用来创建Loader的。
      */
     class Entry<Model, Data>(
-        private val modelClass: Class<Model>, private val dataClass: Class<Data>,
+        private val modelClass: Class<Model>,
+        private val dataClass: Class<Data>,
         val factory: ModelLoader.ModelLoaderFactory<Model, Data>
     ) {
         fun handles(modelClass: Class<*>, dataClass: Class<*>): Boolean {

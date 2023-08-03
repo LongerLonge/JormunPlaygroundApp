@@ -42,6 +42,13 @@
             android:onClick="testGlide"
             android:text="跳转到Glide测试页面" />
 
+        <Button
+            android:id="@+id/btn_rcv_test"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="testRcv01"
+            android:text="跳转到Rcv测试页面" />
+
 
     </LinearLayout>
 

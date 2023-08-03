@@ -28,7 +28,7 @@ class RequestManagerRetriever {
         getApplicationManager()
     }
 
-    var glideContext: GlideContext? = null
+    lateinit var glideContext: GlideContext
 
 
     /**
@@ -58,7 +58,7 @@ class RequestManagerRetriever {
      */
     fun get(fragmentActivity: FragmentActivity): RequestManager {
         val lifecycleLifecycleManager = LifecycleLifecycleManager(fragmentActivity.lifecycle)
-        return RequestManager(lifecycleLifecycleManager)
+        return RequestManager(glideContext, lifecycleLifecycleManager)
     }
 
     /**
@@ -104,7 +104,7 @@ class RequestManagerRetriever {
      */
     private fun getApplicationManager(): RequestManager {
         val applicationLifecycleManager = ApplicationLifecycleManager()
-        return RequestManager(applicationLifecycleManager)
+        return RequestManager(glideContext, applicationLifecycleManager)
     }
 
     /**
@@ -120,7 +120,8 @@ class RequestManagerRetriever {
         //没有就进行绑定
         if (requestManager == null) {
             //新建RequestManager的同时让RequestManager把自身注册到监听者列表里
-            requestManager = RequestManager(lifecycleHelperFragment.fragmentLifecycleManager)
+            requestManager =
+                RequestManager(glideContext, lifecycleHelperFragment.fragmentLifecycleManager)
             //虽然set进去了，但是实际上只是作为标记用，在里面没用到它
             lifecycleHelperFragment.setRequestManager(requestManager)
         }

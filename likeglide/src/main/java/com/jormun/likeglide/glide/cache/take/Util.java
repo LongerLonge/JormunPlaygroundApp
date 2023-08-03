@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 从Glide偷来的
@@ -86,5 +89,15 @@ public class Util {
             hexChars[j * 2 + 1] = HEX_CHAR_ARRAY[v & 0x0F];
         }
         return new String(hexChars);
+    }
+
+    public static <T> List<T> getSnapshot(Collection<T> other) {
+        List<T> result = new ArrayList<>(other.size());
+        for (T item : other) {
+            if (item != null) {
+                result.add(item);
+            }
+        }
+        return result;
     }
 }

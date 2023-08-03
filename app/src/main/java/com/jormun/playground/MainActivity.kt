@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.jormun.likerouter.MyRouter
 import com.jormun.likerouter_annotation.Route
 import com.jormun.playground.glidetest.GlideTestActivity
+import com.jormun.playground.rctest.RcvTestStaggeredActivity
 import com.jormun.playground.splugin.PluginApkTestActivity
 
 @Route("main/main")
@@ -51,4 +52,6 @@ class MainActivity : AppCompatActivity() {
     fun testGlide(view: View) {
         startActivity(Intent(this, GlideTestActivity::class.java))
     }
+
+    fun testRcv01(view: View) {startActivity(Intent(this, RcvTestStaggeredActivity::class.java))}
 }

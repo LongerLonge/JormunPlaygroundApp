@@ -1,5 +1,6 @@
 package com.jormun.likeglide.glide.recycle
 
+import android.content.ComponentCallbacks2
 import android.graphics.Bitmap
 import android.util.Log
 import android.util.LruCache
@@ -58,7 +59,7 @@ class LruBitmapPool(maxSize: Int) : LruCache<Int, Bitmap>(maxSize), BitmapPool {
     override fun get(width: Int, height: Int, config: Bitmap.Config): Bitmap? {
         //算出Bitmap的大小，长乘以宽乘以编码格式，如果是8888那就4字节，565就2字节(8位为一字节)
         val bSize = width * height * (if (config == Bitmap.Config.ARGB_8888) 4 else 2)
-        //根据大小获取缓存池中尽可能接近的对象Key(这里我们存放的Key是size)
+        //获取大于或者等于某个值的Key(这里我们存放的Key是size)
         val bKey = map.ceilingKey(bSize)
         //如果Key(也就是size)大于等于我们定义的最大值，我们就可以让其返回复用，否则就不能复用直接新建吧。
         if (bKey != null && bKey <= bSize * MAX_OVER_SIZE) {
@@ -66,5 +67,17 @@ class LruBitmapPool(maxSize: Int) : LruCache<Int, Bitmap>(maxSize), BitmapPool {
             return remove(bKey)//注意是remove，让Lru抛出去。
         }
         return null
+    }
+
+    override fun trimMemory(level: Int) {
+        if (level >= ComponentCallbacks2.TRIM_MEMORY_BACKGROUND) {
+            clearMemory()
+        } else if (level >= ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
+            trimToSize(maxSize() / 2)
+        }
+    }
+
+    override fun clearMemory() {
+        evictAll()
     }
 }

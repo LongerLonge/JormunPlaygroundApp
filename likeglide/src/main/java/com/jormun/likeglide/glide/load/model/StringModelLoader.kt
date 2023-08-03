@@ -19,7 +19,7 @@ class StringModelLoader(private val modelLoader: ModelLoader<Uri, InputStream>) 
     }
 
 
-    override fun buildData(model: String): ModelLoader.LoadData<InputStream>? {
+    override fun buildLoadData(model: String): ModelLoader.LoadData<InputStream>? {
         //这里我们只是简单的对String进行Uri解析，随后就交给指定的Loader自己去build。
         val uri: Uri?
         try {
@@ -28,7 +28,7 @@ class StringModelLoader(private val modelLoader: ModelLoader<Uri, InputStream>) 
             } else {
                 Uri.parse(model)
             }
-            return this.modelLoader.buildData(uri)
+            return this.modelLoader.buildLoadData(uri)
         } catch (e: Exception) {
             e.printStackTrace()
         }

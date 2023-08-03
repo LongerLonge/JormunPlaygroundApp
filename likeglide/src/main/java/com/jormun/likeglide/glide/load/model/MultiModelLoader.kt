@@ -16,10 +16,10 @@ class MultiModelLoader<Model, Data>(private val modelLoaders: List<ModelLoader<M
         return false
     }
     //筛选出对应的Loader来构建Loader.Data。
-    override fun buildData(model: Model): ModelLoader.LoadData<Data>? {
+    override fun buildLoadData(model: Model): ModelLoader.LoadData<Data>? {
         for (modelLoader in modelLoaders) {
             if (modelLoader.handles(model)) {
-                return modelLoader.buildData(model)
+                return modelLoader.buildLoadData(model)
             }
         }
         return null

@@ -16,5 +16,9 @@ interface MemoryCache{
 
     fun get(key: Key): Resources
 
-    fun removeResource(key: Key): Resources
+    fun removeResource(key: Key): Resources?
+
+    fun trimMemory(level: Int)
+
+    fun clearMemory()
 }

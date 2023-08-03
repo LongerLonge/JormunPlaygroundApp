@@ -3,7 +3,6 @@ package com.jormun.likeglide.glide.load.model.data
 import android.content.ContentResolver
 import android.net.Uri
 import java.io.InputStream
-import kotlin.Exception
 
 /**
  * 真正执行本地文件数据的类，继承自DataFetcher。
@@ -35,5 +34,9 @@ class FileUriFetcher(private val uri: Uri, private val contentResolver: ContentR
 
     override fun cancel() {
         //什么都不需要做。
+    }
+
+    override fun getDataClass(): Class<InputStream> {
+        return InputStream::class.java
     }
 }

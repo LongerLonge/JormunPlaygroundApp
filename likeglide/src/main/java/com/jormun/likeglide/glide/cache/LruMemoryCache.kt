@@ -1,5 +1,6 @@
 package com.jormun.likeglide.glide.cache
 
+import android.content.ComponentCallbacks2
 import android.util.LruCache
 import com.jormun.likeglide.glide.bean.Key
 import com.jormun.likeglide.glide.bean.Resources
@@ -20,10 +21,21 @@ class LruMemoryCache(maxSize: Int) : MemoryCache, LruCache<Key, Resources>(maxSi
     /**
      * 主动移除某个对象，然后我们可以自己做一些业务逻辑。
      */
-    override fun removeResource(key: Key): Resources {
+    override fun removeResource(key: Key): Resources? {
         isDoRemoved = true//是主动移除，做标记
-        val remove = remove(key)
-        return remove
+        return remove(key)
+    }
+
+    override fun trimMemory(level: Int) {
+        if (level >= ComponentCallbacks2.TRIM_MEMORY_BACKGROUND) {
+            clearMemory()
+        } else if (level >= ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
+            trimToSize(maxSize() / 2)
+        }
+    }
+
+    override fun clearMemory() {
+        evictAll()
     }
 
     /**
@@ -53,7 +65,7 @@ class LruMemoryCache(maxSize: Int) : MemoryCache, LruCache<Key, Resources>(maxSi
         evicted: Boolean,
         key: Key,
         oldValue: Resources?,//旧值，也就是被抛出的对象
-        newValue: Resources//新值，也就是被新塞进去的对象
+        newValue: Resources?//新值，也就是被新塞进去的对象
     ) {
         /**
          *  被抛出分两种情况，主动和被动，主动是我们自己调用remove，被动就是上面说的两种情况。

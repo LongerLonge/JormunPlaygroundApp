@@ -54,4 +54,8 @@ class HttpUriFetcher(private val uri: Uri) : DataFetcher<InputStream> {
     override fun cancel() {
         isCancel = true
     }
+
+    override fun getDataClass(): Class<InputStream> {
+        return InputStream::class.java
+    }
 }

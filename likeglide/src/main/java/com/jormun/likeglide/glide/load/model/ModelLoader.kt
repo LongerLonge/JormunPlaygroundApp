@@ -4,7 +4,8 @@ import com.jormun.likeglide.glide.bean.Key
 import com.jormun.likeglide.glide.load.model.data.DataFetcher
 
 /**
- *  对数据加载进行辅助的类
+ *  描述了数据加载器的抽象行为类。
+ *  本身并不加载数据，但是可以帮忙创建加载数据的LoadData，而且可以自定义筛选逻辑来决定是否处理某种数据。
  * @param Model 数据来源，有uri有url
  * @param Data 具体数据(被加载后的)，比如InputStream或者Byte[]
  */
@@ -24,17 +25,24 @@ interface ModelLoader<Model, Data> {
 
     /**
      * 包装了DataFetcher的对象
+     * @param key 注意这玩意，这个就是该次加载数据流里面的唯一Key
+     * 在加载层是用ObjectKey：
+     * @see com.jormun.likeglide.glide.bean.ObjectKey
+     * @param fetcher 真正的数据加载执行者，也是加载数据的最小业务类
      */
-    class LoadData<Data>(var key: Key? = null, var fetcher: DataFetcher<Data>? = null)
+    class LoadData<Data>(var key: Key, var fetcher: DataFetcher<Data>? = null)
 
 
     /**
-     * 判断处理对应model的数据，可以理解为一些前置处理
+     * 两个功能
+     * 一是对输入的数据进行前置处理
+     * 而是对输入的数据进行过滤
      */
     fun handles(model: Model): Boolean
 
     /**
-     * 创建对应的数据加载者，这里可以理解为是创建对应的Fetcher(被包装在LoadData里面)
+     * 创建LoadData，里面包装着Fetcher(真正加载数据的最小业务类)
+     * @see LoadData
      */
-    fun buildData(model: Model): LoadData<Data>?
+    fun buildLoadData(model: Model): LoadData<Data>?
 }

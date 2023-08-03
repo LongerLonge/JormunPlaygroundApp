@@ -18,7 +18,8 @@ class FileUriLoader(private var contentResolver: ContentResolver) : ModelLoader<
         return ContentResolver.SCHEME_FILE.equals(uri.scheme, true)
     }
 
-    override fun buildData(uri: Uri): ModelLoader.LoadData<InputStream> {
+    override fun buildLoadData(uri: Uri): ModelLoader.LoadData<InputStream> {
+        //注意Uri是在这里被封装成ObjectKey的
         return ModelLoader.LoadData(ObjectKey(uri), FileUriFetcher(uri, contentResolver))
     }
 

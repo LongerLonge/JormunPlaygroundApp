@@ -2,7 +2,6 @@ package com.jormun.likeglide.glide.load
 
 import android.content.Context
 import android.net.Uri
-import com.jormun.likeglide.glide.load.model.FileUriLoader
 import com.jormun.likeglide.glide.load.model.HttpUriLoader
 import com.jormun.likeglide.glide.load.model.ModelLoader
 import com.jormun.likeglide.glide.load.model.ModelLoaderRegistry
@@ -33,7 +32,7 @@ class LoaderTest {
 
         val modelLoaders = modelLoaderRegistry.getModelLoaders(String::class.java)
         val modelLoader = modelLoaders[0]
-        val buildData = modelLoader.buildData("https") as ModelLoader.LoadData<InputStream>
+        val buildData = modelLoader.buildLoadData("https") as ModelLoader.LoadData<InputStream>
         buildData.fetcher?.loadData(object :
             DataFetcher.DataFetcherCallBack<InputStream> {
             override fun onFetcherReady(data: InputStream) {

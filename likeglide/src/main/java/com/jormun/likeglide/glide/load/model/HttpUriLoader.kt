@@ -16,7 +16,8 @@ class HttpUriLoader : ModelLoader<Uri, InputStream> {
         return uri.scheme.equals("https", true)
     }
 
-    override fun buildData(uri: Uri): ModelLoader.LoadData<InputStream> {
+    override fun buildLoadData(uri: Uri): ModelLoader.LoadData<InputStream> {
+        //注意Uri是在这里被封装成ObjectKey的
         return ModelLoader.LoadData(ObjectKey(uri), HttpUriFetcher(uri))
     }
 

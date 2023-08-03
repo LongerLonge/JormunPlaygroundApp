@@ -3,7 +3,6 @@ package com.jormun.playground.glidetest
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
-import com.jormun.likeglide.glide.LikeGlide
 import com.jormun.playground.R
 
 class OldFragmentActivity : Activity() {
@@ -13,6 +12,6 @@ class OldFragmentActivity : Activity() {
     }
 
     fun fragmentBind(view: View) {
-        LikeGlide.with(this)
+        //LikeGlide.with(this)
     }
 }

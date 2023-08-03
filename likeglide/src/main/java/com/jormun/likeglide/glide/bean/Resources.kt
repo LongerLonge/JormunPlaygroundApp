@@ -6,11 +6,11 @@ import android.util.Log
 /**
  *Bitmap的封装类，可以理解为就是实现了一些自定义行为的Bitmap。
  */
-class Resources {
+class Resources(var bitmap: Bitmap) {
     private val TAG = "Resources"
 
     //缓存的Bitmap，被封装的对象。
-    var bitmap: Bitmap? = null
+
 
     //该资源的引用计数，也就是被引用的数量
     //如果为0，就代表需要从活动缓存回收到内存缓存中去
@@ -42,10 +42,13 @@ class Resources {
         if (acquired > 0) {
             return
         }
-        bitmap?.apply {
+        /*bitmap?.apply {
             if (!isRecycled) {
                 recycle()
             }
+        }*/
+        if (!bitmap.isRecycled) {
+            bitmap.recycle()
         }
     }
 
@@ -62,13 +65,18 @@ class Resources {
 
     //用到了就把计数加一，前提是bitmap不能被回收，必须还存活。
     fun acquire() {
-        bitmap?.apply {
+        /*bitmap?.apply {
             if (isRecycled) {
                 Log.e(TAG, "acquire: bitmap is recycled.")
                 return
             }
             ++acquired
+        }*/
+        if (bitmap.isRecycled) {
+            Log.e(TAG, "acquire: bitmap is recycled.")
+            return
         }
+        ++acquired
     }
 
 }
