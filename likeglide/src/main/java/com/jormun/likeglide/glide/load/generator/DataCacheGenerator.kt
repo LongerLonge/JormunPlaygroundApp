@@ -86,7 +86,7 @@ class DataCacheGenerator(
             loadData = modelLoader.buildLoadData(cacheFile!!) as ModelLoader.LoadData<Any>?
             Log.e(TAG, "获得加载设置数据")
             //找到对应的加载转换器后，因为加载完后需要解码Bitmap，那么要看看能否找到对应的类型转换解码器(这里不负责解码)
-            if (loadData != null && glideContext.registry.hasLoadPath(loadData!!.fetcher!!.javaClass)) {
+            if (loadData != null && glideContext.registry.hasLoadPath(loadData!!.fetcher!!.getDataClass())) {
                 Log.e(TAG, "加载设置数据输出数据对应能够查找有效的解码器路径,开始加载数据")
                 started = true
                 //找到后，直接执行加载转换并且让接口回调

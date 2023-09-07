@@ -53,7 +53,7 @@ class LruArrayPool(private val maxSize: Int = ARRAY_POOL_SIZE_BYTES) : ArrayPool
         //获得等于或大于len的key
         val key = sortedSizes.ceilingKey(len)
         if (null != key) {
-            //需要加入缓存池的对象不能超过所需长度的8倍
+            //需要从缓存池取出的对象不能超过所需长度的8倍
             if (key <= MAX_OVER_SIZE_MULTIPLE * len) {
                 val bytes = cache.remove(key)
                 sortedSizes.remove(key)

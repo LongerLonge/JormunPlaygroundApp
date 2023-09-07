@@ -49,6 +49,13 @@
             android:onClick="testRcv01"
             android:text="跳转到Rcv测试页面" />
 
+        <Button
+            android:id="@+id/btn_likehttp_test"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="testLikehttp"
+            android:text="跳转到likehttp测试页面" />
+
 
     </LinearLayout>
 

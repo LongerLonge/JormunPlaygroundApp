@@ -4,7 +4,7 @@ import com.jormun.likeglide.glide.bean.Key
 import com.jormun.likeglide.glide.load.model.data.DataFetcher
 
 /**
- *  描述了数据加载器的抽象行为类。
+ *  描述了数据加载转换器的抽象行为类。
  *  本身并不加载数据，但是可以帮忙创建加载数据的LoadData，而且可以自定义筛选逻辑来决定是否处理某种数据。
  * @param Model 数据来源，有uri有url
  * @param Data 具体数据(被加载后的)，比如InputStream或者Byte[]

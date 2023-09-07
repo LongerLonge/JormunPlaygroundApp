@@ -7,6 +7,7 @@ plugins {
     扔给根工程的build处理。*/
     alias(libs.plugins.ksp)
     id("router-register")
+    alias(libs.plugins.org.jetbrains.kotlin.android)
 }
 
 android {
@@ -44,6 +45,7 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation("com.github.bumptech.glide:glide:4.15.1")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation(libs.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.test.junit)
@@ -55,5 +57,6 @@ dependencies {
     implementation(project(":likerouter-annotation"))
     implementation(project(":likerouter"))
     implementation(project(":likeglide"))
+    implementation(project(":likehttp"))
     ksp(project(":likerouter-compiler"))
 }

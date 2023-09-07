@@ -21,6 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JormunPlaygroundApp">
         <activity
+            android:name=".httptest.HttpTestActivity"
+            android:exported="false" />
+        <activity
             android:name=".rctest.RcvTestStaggeredActivity"
             android:exported="false" />
         <activity

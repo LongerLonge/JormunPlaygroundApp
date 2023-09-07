@@ -143,6 +143,10 @@ class DecodeJob(
         }
     }
 
+    /**
+     * 负责状态的推进和切换
+     * @param current: 当前的状态
+     */
     private fun getNextStage(current: Stage): Stage {
         when (current) {
             //第一步状态，初始化，那就往下推进到缓存查找

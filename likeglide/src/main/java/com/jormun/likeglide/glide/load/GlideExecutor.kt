@@ -12,7 +12,7 @@ import kotlin.math.max
  */
 object GlideExecutor {
     //因为用到这个线程池的都是IO密集型任务，线程数量以核心数为准，最低是4个
-    private var bestThreadCount: Int = max(4, Runtime.getRuntime().availableProcessors())
+    private var bestThreadCount: Int = max(4, Runtime.getRuntime().availableProcessors()) + 1
     //var bestThreadCount: Int = min(4, Runtime.getRuntime().availableProcessors())
 
     /**
@@ -35,9 +35,10 @@ object GlideExecutor {
         /**
          * LinkedBlockingDeque：阻塞队列
          * 简单点说有两种情况
-         * 1.取出里面元素的时候，如果队列为空，那么就阻塞住当前执行的代码，直到有数据进来为止。
-         * 2.往队列添加元素时，如果已经满了，那么就阻塞住当前执行的代码直到有空间放进去为止。
-         * 默认构造方法为Integer.MAX，可以理解为无界队列，也可以传个数进去作为容量限制。
+         * 1.取出里面元素的时候，如果队列为空，那么就阻塞住当前执行的代码(线程)，直到有数据进来为止。
+         * 2.往队列添加元素时，如果已经满了，那么就阻塞住当前执行的代码(线程)直到有空间放进去为止。
+         * 但是因为默认构造方法为Integer.MAX，可以理解为无界队列(也可以传个数进去作为容量限制), 因为是无界的所以
+         * 默认情况下put任务进去的时候不会发生阻塞。
          */
         return ThreadPoolExecutor(
             bestThreadCount /* corePoolSize */,

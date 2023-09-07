@@ -2,13 +2,17 @@
 router_version = "0.5.2"
 kotlin_version = "1.8.0"
 androidGradlePlugin = "7.4.2"
-minSdk = "24"
+minSdk = "26"
 compileSdk = "33"
 targetSdk="33"
 versionCode="1"
 versionName="1.0"
 kspVersion="1.8.10-1.0.9"
 lifecycle_version = "2.6.0"
+appcompat = "1.6.1"
+material = "1.8.0"
+org-jetbrains-kotlin-android = "1.8.10"
+constraintlayout = "2.1.4"
 
 [libraries]
 #base
@@ -38,9 +42,13 @@ test-espresso = "androidx.test.espresso:espresso-core:3.5.1"
 
 #ksp
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "kspVersion" }
+androidx-appcompat-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+com-google-android-material-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-constraintlayout-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin_version" }
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }

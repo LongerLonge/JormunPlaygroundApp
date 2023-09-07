@@ -27,5 +27,9 @@ interface DataFetcher<Data> {
      */
     fun cancel()
 
+    /**
+     * 获取当前加载转换器的输出class类型
+     * 比如InputStream
+     */
     fun getDataClass(): Class<*>
 }
