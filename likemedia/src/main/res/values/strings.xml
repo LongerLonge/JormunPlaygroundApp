@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">LikeMedia</string>
+    <string name="title_activity_play_video">PlayVideoActivity</string>
+    <string name="title_activity_projection">ProjectionActivity</string>
+</resources>
