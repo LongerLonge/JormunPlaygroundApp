@@ -64,7 +64,7 @@ class ProjectionSurfaceCallback : SurfaceHolder.Callback {
     override fun surfaceCreated(holder: SurfaceHolder) {
         // TODO: 接收数据播放到SurfaceView
         val h264Codec = H264Codec(surface = holder.surface, isStream = true)
-        val socketLiveClient = SocketLiveClient(h264Codec, 9007)
+        val socketLiveClient = SocketLiveClient(h264Codec, port = 9007)
         socketLiveClient.start()
     }
 

@@ -16,9 +16,8 @@ import android.os.IBinder
 import android.util.Log
 import com.jormun.likemedia.codec.CodeType
 import com.jormun.likemedia.codec.H264Encoder
-import com.jormun.likemedia.cons.VideoFormat
+import com.jormun.likemedia.cons.VideoEncodeFormat
 import com.jormun.likemedia.net.SocketLivePush
-import com.jormun.likemedia.utils.UiUtils
 
 
 class ScreenRecordService : Service() {
@@ -72,7 +71,7 @@ class ScreenRecordService : Service() {
 
 
     fun startRecord(isStream: Boolean, codeType: CodeType) {
-        val h264Encoder = H264Encoder(mediaProjection, VideoFormat.VIDEO_WIDTH, VideoFormat.VIDEO_HEIGHT, isStream, codeType)
+        val h264Encoder = H264Encoder(mediaProjection, VideoEncodeFormat.VIDEO_WIDTH, VideoEncodeFormat.VIDEO_HEIGHT, isStream, codeType)
         if (isStream) {
             if (!this::socketLivePush.isInitialized) {
                 socketLivePush = SocketLivePush()

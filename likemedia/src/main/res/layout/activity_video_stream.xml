@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".ui.old.VideoStreamActivity">
 
-    tools:context=".ui.old.OldPlayActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <SurfaceView
-        android:id="@+id/sf_out"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp" />
+
+      <com.jormun.likemedia.ui.view.LocalSurfaceView
+          android:layout_width="match_parent"
+          android:id="@+id/lf_in"
+          android:layout_weight="1"
+          android:layout_height="0dp"/>
 
         <Button
             android:id="@+id/btn_start_push"
@@ -23,14 +25,15 @@
             android:text="开始传输画面" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:orientation="vertical">
 
-        <com.jormun.likemedia.ui.view.LocalSurfaceView
-            android:id="@+id/sf_old"
+        <SurfaceView
+            android:id="@+id/sf_out"
             android:layout_width="150dp"
             android:layout_height="250dp" />
 
@@ -48,4 +51,6 @@
             android:text="连接三星手机" />
 
     </LinearLayout>
+
+
 </FrameLayout>

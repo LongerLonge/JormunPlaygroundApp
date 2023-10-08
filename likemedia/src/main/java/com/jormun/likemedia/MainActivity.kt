@@ -4,36 +4,24 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.media.MediaCodec
-import android.media.projection.MediaProjectionManager
+
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
-import android.util.Log
-import android.view.SurfaceHolder
-import android.view.SurfaceView
-import android.view.ViewGroup
+
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.viewinterop.AndroidView
-import com.jormun.likemedia.codec.H264Codec
 import com.jormun.likemedia.ui.old.OldPlayActivity
-import com.jormun.likemedia.ui.theme.JormunPlaygroundAppTheme
-import java.io.File
+
+import com.jormun.likemedia.ui.old.VideoStreamActivity
+
 
 class MainActivity : ComponentActivity() {
     private val TAG = "MainActivity"
@@ -63,6 +51,11 @@ class MainActivity : ComponentActivity() {
                     startActivity(Intent(this@MainActivity, ProjectionActivity::class.java))
                 }) {
                     Text(text = "Projection")
+                }
+                Button(onClick = {
+                    startActivity(Intent(this@MainActivity, OldPlayActivity::class.java))
+                }) {
+                    Text(text = "VideoStream")
                 }
             }
 

@@ -16,26 +16,33 @@ import kotlin.Exception
  */
 class SocketLiveClient(
     private var socketCallback: SocketCallback,
+    private var host: String = "192.168.31.60",
     private var port: Int = -1
 ) {
     private val TAG = "SocketLiveClient"
     private lateinit var myWebSocketClient: MyWebSocketClient
     private lateinit var webSocket: WebSocket
+    private var isStart = false
 
 
     fun start() {
-        try {
-            //端口默认给9007
-            if (port == -1) port = 9007
-            //接收端需要连接到投屏端，ip地址看投屏端，比如小米在wifi信息里面可以看到
-            val uri = URI("ws://192.168.31.60:${port}")
-           // val uri = URI("ws://192.168.31.120:${port}")
-            //val uri = URI("ws://192.168.232.2:${port}")
-            myWebSocketClient = MyWebSocketClient(uri, socketCallback)
-            myWebSocketClient.connect()
-        } catch (e: Exception) {
-            e.printStackTrace()
+        if (isStart) return
+        synchronized(SocketLiveClient::class.java) {
+            try {
+                //端口默认给9007
+                if (port == -1) port = 9007
+                //接收端需要连接到投屏端，ip地址看投屏端，比如小米在wifi信息里面可以看到
+                val uri = URI("ws://${host}:${port}")
+                // val uri = URI("ws://192.168.31.120:${port}")
+                //val uri = URI("ws://192.168.232.2:${port}")
+                myWebSocketClient = MyWebSocketClient(uri, socketCallback)
+                myWebSocketClient.connect()
+                isStart = true
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
+
     }
 
 
@@ -44,6 +51,7 @@ class SocketLiveClient(
         private val TAG = "MyWebSocketClient"
         override fun onOpen(handshakedata: ServerHandshake?) {
             Log.i(TAG, "打开 socket  onOpen: ")
+
         }
 
         override fun onMessage(message: String?) {
@@ -70,7 +78,12 @@ class SocketLiveClient(
 
     }
 
-    interface SocketCallback {
-        fun callback(data: ByteArray)
+    fun socketClose() {
+        if (!isStart) return
+        synchronized(SocketLivePush::class.java) {
+            if (!isStart) return
+            myWebSocketClient.close()
+            isStart = false
+        }
     }
 }

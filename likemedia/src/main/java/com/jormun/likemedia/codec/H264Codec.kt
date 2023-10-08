@@ -5,9 +5,10 @@ import android.media.MediaExtractor
 import android.media.MediaFormat
 import android.util.Log
 import android.view.Surface
-import com.jormun.likemedia.cons.VideoFormat
-import com.jormun.likemedia.net.SocketLiveClient
-import com.jormun.likemedia.utils.UiUtils
+import com.jormun.likemedia.cons.MediaCodeType
+import com.jormun.likemedia.cons.VideoEncodeFormat
+import com.jormun.likemedia.net.SocketCallback
+import com.jormun.likemedia.utils.VideoUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,30 +27,30 @@ class H264Codec(
     private val path: String = "",
     private val surface: Surface,
     private val isStream: Boolean = false
-) : SocketLiveClient.SocketCallback {
+) : SocketCallback {
 
     private val TAG: String = "H264Codec"
 
     private lateinit var mediaCodec: MediaCodec
+    private lateinit var audioRecordEncoder: AudioRecordEncoder
 
     fun play() {
-        if (!isStream)
-            decodeH264(path)
+        if (!isStream) decodeH264(path)
     }
 
     private fun initMediaCodec() {
         try {
-            mediaCodec = MediaCodec.createDecoderByType(VideoFormat.VIDEO_MIMETYPE)
+            mediaCodec = MediaCodec.createDecoderByType(VideoEncodeFormat.VIDEO_MIMETYPE)
             val videoFormat = MediaFormat.createVideoFormat(
-                VideoFormat.VIDEO_MIMETYPE,
-               VideoFormat.VIDEO_WIDTH,
-                VideoFormat.VIDEO_HEIGHT
+                VideoEncodeFormat.VIDEO_MIMETYPE,
+                VideoEncodeFormat.VIDEO_WIDTH,
+                VideoEncodeFormat.VIDEO_HEIGHT
             )
             videoFormat.setInteger(MediaFormat.KEY_FRAME_RATE, 20)
             if (isStream) {
                 videoFormat.setInteger(
                     MediaFormat.KEY_BIT_RATE,
-                    VideoFormat.VIDEO_WIDTH * VideoFormat.VIDEO_HEIGHT
+                    VideoEncodeFormat.VIDEO_WIDTH * VideoEncodeFormat.VIDEO_HEIGHT
                 )
                 videoFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1)
             }
@@ -57,25 +58,6 @@ class H264Codec(
         } catch (e: Exception) {
             Log.e(TAG, "init codec err : ${e.printStackTrace()}")
         }
-    }
-
-    private fun getFormat(path: String, isVideo: Boolean): MediaFormat? {
-        try {
-            val mediaExtractor = MediaExtractor()
-            mediaExtractor.setDataSource(path)
-            val trackCount = mediaExtractor.trackCount
-            for (i in 0..trackCount) {
-                val trackFormat = mediaExtractor.getTrackFormat(i)
-                if (trackFormat.getString(MediaFormat.KEY_MIME)!!
-                        .startsWith(if (isVideo) "video/" else "audio/")
-                ) {
-                    return mediaExtractor.getTrackFormat(i)
-                }
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "getFormat err: ${e.message}")
-        }
-        return null
     }
 
     private fun decodeH264(path: String) {
@@ -114,8 +96,7 @@ class H264Codec(
                             //移动起始点
                             startIndex = nextFrameIndex
                             //等待1秒钟，从dps中尝试获取已经解码好的数据容器下标
-                            val completeBufferIndex =
-                                mediaCodec.dequeueOutputBuffer(bufferInfo, 0)
+                            val completeBufferIndex = mediaCodec.dequeueOutputBuffer(bufferInfo, 0)
                             //不为0，则说明获取容器下标成功
                             if (completeBufferIndex >= 0) {
                                 val newFormat: MediaFormat = mediaCodec.outputFormat
@@ -147,8 +128,7 @@ class H264Codec(
             val b2 = byteArray[i + 1].toInt()
             val b3 = byteArray[i + 2].toInt()
             val b4 = byteArray[i + 3].toInt()
-            if ((b1 == 0x00 && b2 == 0x00 && b3 == 0x00 && b4 == 0x01)
-            ) {
+            if ((b1 == 0x00 && b2 == 0x00 && b3 == 0x00 && b4 == 0x01)) {
                 //如果满足，说明当前下标就是分隔符，返回即可
                 return i
             }
@@ -174,17 +154,37 @@ class H264Codec(
         return buff
     }
 
+    fun setAudioEncoder(audioRecordEncoder: AudioRecordEncoder) {
+        this.audioRecordEncoder = audioRecordEncoder
+    }
+
+
     /**
      * 视频流回调处，如果是网络传输的在线视频流就走这里。
      * 目前只是在投屏功能中作学习演示用。
      */
     override fun callback(data: ByteArray) {
+        Log.e(TAG, "callback: 收到数据开始解码")
+        synchronized(H264Codec::class.java) {
+            //先解析标记位看下是视频还是音频数据
+            val dataType = VideoUtils.encodeDataType(data)
+            //
+            if (dataType.containsKey(MediaCodeType.VIDEO_DATA)) {//说明是视频
+                decodeVideoData(dataType[MediaCodeType.VIDEO_DATA]!!)
+            }
+        }
+    }
+
+
+    /**
+     * 处理视频数据
+     */
+     fun decodeVideoData(data: ByteArray) {
+        //Log.e(TAG, "decodeVideoData: 视频数据")
         if (!this@H264Codec::mediaCodec.isInitialized) {
             initMediaCodec()
             mediaCodec.start()
         }
-
-        //CoroutineScope(Dispatchers.IO).launch {
         Log.i(TAG, "解码器前长度  : " + data.size)
         //第一步，先塞数据给dsp容器，让其帮忙解码。
         val inputIndex = mediaCodec.dequeueInputBuffer(100000)
@@ -193,7 +193,9 @@ class H264Codec(
             inputBuffer?.apply {
                 clear()
                 inputBuffer.put(data, 0, data.size)
-                mediaCodec.queueInputBuffer(inputIndex, 0, data.size, System.currentTimeMillis(), 0)
+                mediaCodec.queueInputBuffer(
+                    inputIndex, 0, data.size, System.currentTimeMillis(), 0
+                )
             }
         }
         //第二步，查询dsp的容器，有的话就从容器中取出已经解码好的数据。
@@ -216,8 +218,8 @@ class H264Codec(
 
             outputIndex = mediaCodec.dequeueOutputBuffer(bufferInfo, 0)
         }
-        //}
     }
+
 
 
 }

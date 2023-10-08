@@ -15,11 +15,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import com.jormun.likemedia.codec.CodeType
 import com.jormun.likemedia.codec.H264Encoder
-import com.jormun.likemedia.cons.VideoFormat
+import com.jormun.likemedia.cons.VideoEncodeFormat
 import com.jormun.likemedia.net.SocketLivePush
-import com.jormun.likemedia.utils.UiUtils
 
 
 class RecordActivity : ComponentActivity() {
@@ -81,9 +79,9 @@ class RecordActivity : ComponentActivity() {
         var text = "已经开启录屏，请点击下方按钮让画面动起来！"
         if (isCanRecord) {
             if (mBound)
-                mService.startRecord(isStream, VideoFormat.CODE_TYPE)
+                mService.startRecord(isStream, VideoEncodeFormat.CODE_TYPE)
             else {
-                val h264Encoder = H264Encoder(mediaProjection, VideoFormat.VIDEO_WIDTH, VideoFormat.VIDEO_HEIGHT, isStream, VideoFormat.CODE_TYPE)
+                val h264Encoder = H264Encoder(mediaProjection, VideoEncodeFormat.VIDEO_WIDTH, VideoEncodeFormat.VIDEO_HEIGHT, isStream, VideoEncodeFormat.CODE_TYPE)
                 if (isStream) {
                     val socketLivePush = SocketLivePush()
                     h264Encoder.setTheSocketLive(socketLivePush)
