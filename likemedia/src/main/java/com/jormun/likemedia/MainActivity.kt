@@ -18,9 +18,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 
 import androidx.compose.material3.Text
+import com.jormun.likemedia.codec.LikeMediaCodec
 import com.jormun.likemedia.ui.old.OldPlayActivity
+import com.jormun.likemedia.ui.old.VideoClipActivity
 
 import com.jormun.likemedia.ui.old.VideoStreamActivity
+import java.io.File
 
 
 class MainActivity : ComponentActivity() {
@@ -57,9 +60,25 @@ class MainActivity : ComponentActivity() {
                 }) {
                     Text(text = "VideoStream")
                 }
+                Button(onClick = {
+                    doLikeMediaCodec()
+                }) {
+                    Text(text = "LikeMediaCodec")
+                }
+                Button(onClick = {
+                    startActivity(Intent(this@MainActivity, VideoClipActivity::class.java))
+                }) {
+                    Text(text = "Clip")
+                }
             }
 
         }
+    }
+
+    private fun doLikeMediaCodec() {
+        val apkFile = File(Environment.getExternalStorageDirectory(), "out.h264")
+        val likeMediaCodec = LikeMediaCodec(apkFile.absolutePath)
+        likeMediaCodec.startCodec()
     }
 
 

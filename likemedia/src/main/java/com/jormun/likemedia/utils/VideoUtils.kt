@@ -144,14 +144,16 @@ object VideoUtils {
      * @param height: 高
      */
     fun portraitData2Raw(data: ByteArray, output: ByteArray, width: Int, height: Int) {
+        //把这个数组想象成一个无数像素的网格图，上面能看到并且显示的部分是Y数据，下面看不见的隐形部分是UV数据。
+
         //求出YUV中Y的长度，很好算，Y是每个像素都有，所以就是宽*高
         val y_len = width * height
         // uv数据高为高度的一半，右移一位等于除以2
         val uvHeight = height shr 1
         var k = 0
-        //从左到右一列列遍历，每一列从下到上遍历。
-        for (j in 0 until width) {
-            for (i in height - 1 downTo 0) {
+        //把这个数组想象成一个无数像素的网格图，然后从左到右一列列遍历，每一列从下到上遍历。
+        for (j in 0 until width) {//外循环是移动列，一次移动一列
+            for (i in height - 1 downTo 0) {//内循环是遍历列内数据，从下往上
                 //旋转Y，并且存到新数组里
                 output[k++] = data[width * i + j]
             }
@@ -159,8 +161,8 @@ object VideoUtils {
         //把UV数据存到新容器里面，起点位置为Y数据的末尾。
         var j = 0
         //跟Y不一样的是，uv因为不需要参与旋转，所以直接把原数组里面的uv数据按顺序存到新容器中即可。
-        while (j < width) {
-            for (i in uvHeight - 1 downTo 0) {
+        while (j < width) {//外循环是移动列(UV为每次移动2列)
+            for (i in uvHeight - 1 downTo 0) {//内循环是遍历列内数据，从最下面，左往右遍历。
                 output[k++] = data[y_len + width * i + j]
                 output[k++] = data[y_len + width * i + j + 1]
             }
@@ -191,15 +193,34 @@ object VideoUtils {
         }
         return nv12
     }
+
     /**
      * 需要解析一下，看是音频还是视频数据
      */
     fun encodeDataType(data: ByteArray): Map<Int, ByteArray> {
         val result = mutableMapOf<Int, ByteArray>()
         val srcBuff = ByteArray(data.size - 1)
-        System.arraycopy(data, 1, srcBuff, 0, data.size-1)
+        System.arraycopy(data, 1, srcBuff, 0, data.size - 1)
         result[data[0].toInt()] = srcBuff
         return result
     }
 
+
+    /**
+     * 从H264字节数据中，找到下一帧的起始位置，同时也是当前帧的结束位置
+     */
+    fun findNextFrame(byteArray: ByteArray, start: Int, total: Int): Int {
+        for (i in start..total - 4) {
+            //找的方法很简单，就是读取4个字节的数据，是否满足 00 00 00 01这个分隔符即可
+            val b1 = byteArray[i].toInt()
+            val b2 = byteArray[i + 1].toInt()
+            val b3 = byteArray[i + 2].toInt()
+            val b4 = byteArray[i + 3].toInt()
+            if ((b1 == 0x00 && b2 == 0x00 && b3 == 0x00 && b4 == 0x01)) {
+                //如果满足，说明当前下标就是分隔符，返回即可
+                return i
+            }
+        }
+        return -1
+    }
 }

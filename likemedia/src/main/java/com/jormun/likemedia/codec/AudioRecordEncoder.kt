@@ -91,7 +91,6 @@ class AudioRecordEncoder {
                  FileUtils.writeBytes(audioData, "audiotestPcm")*/
                 }
             }
-
         }
     }
 

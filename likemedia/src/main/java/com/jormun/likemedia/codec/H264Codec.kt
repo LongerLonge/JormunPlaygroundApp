@@ -78,12 +78,13 @@ class H264Codec(
                 while (true) {
                     //delay(33)
                     //找到下一帧的开始位置，同时也是当前一帧的结束位置
-                    val nextFrameIndex = findNextFrame(h264Bytes, startIndex + 2, h264Bytes.size)
+                    val nextFrameIndex =
+                        VideoUtils.findNextFrame(h264Bytes, startIndex + 2, h264Bytes.size)
                     if (nextFrameIndex == -1) break
                     //尝试等待，获得可用容器的下标
                     val idleIndex = mediaCodec.dequeueInputBuffer(10000)
                     //不为0，则说明获取可用容器下标成功
-                    if (idleIndex >= 0) {
+                    while (idleIndex >= 0) {//内循环直到所有数据都取出完毕为止
                         //取出可用容器，推荐使用这种方式
                         val byteBuffer = mediaCodec.getInputBuffer(idleIndex)
                         val len = nextFrameIndex - startIndex
@@ -118,23 +119,6 @@ class H264Codec(
         }
     }
 
-    /**
-     * 从H264字节数据中，找到下一帧的起始位置，同时也是当前帧的结束位置
-     */
-    private fun findNextFrame(byteArray: ByteArray, start: Int, total: Int): Int {
-        for (i in start..total - 4) {
-            //找的方法很简单，就是读取4个字节的数据，是否满足 00 00 00 01这个分隔符即可
-            val b1 = byteArray[i].toInt()
-            val b2 = byteArray[i + 1].toInt()
-            val b3 = byteArray[i + 2].toInt()
-            val b4 = byteArray[i + 3].toInt()
-            if ((b1 == 0x00 && b2 == 0x00 && b3 == 0x00 && b4 == 0x01)) {
-                //如果满足，说明当前下标就是分隔符，返回即可
-                return i
-            }
-        }
-        return -1
-    }
 
     /**
      * 把h264文件转成字节数组
@@ -179,7 +163,7 @@ class H264Codec(
     /**
      * 处理视频数据
      */
-     fun decodeVideoData(data: ByteArray) {
+    fun decodeVideoData(data: ByteArray) {
         //Log.e(TAG, "decodeVideoData: 视频数据")
         if (!this@H264Codec::mediaCodec.isInitialized) {
             initMediaCodec()
@@ -219,7 +203,6 @@ class H264Codec(
             outputIndex = mediaCodec.dequeueOutputBuffer(bufferInfo, 0)
         }
     }
-
 
 
 }

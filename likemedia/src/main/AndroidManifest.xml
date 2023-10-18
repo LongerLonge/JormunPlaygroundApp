@@ -27,10 +27,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JormunPlaygroundApp">
         <activity
+            android:name=".ui.old.VideoClipActivity"
+            android:exported="false"
+            android:theme="@style/Theme.JormunPlaygroundApp_old" />
+        <activity
             android:name=".ui.old.VideoStreamActivity"
             android:exported="false"
-            android:theme="@style/Theme.JormunPlaygroundApp_old"
-            />
+            android:theme="@style/Theme.JormunPlaygroundApp_old" />
         <activity
             android:name=".ui.old.OldPlayActivity"
             android:exported="false"
